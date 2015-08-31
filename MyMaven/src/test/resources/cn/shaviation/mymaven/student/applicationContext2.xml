@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 指定Spring配置文件的Schema信息 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+	default-lazy-init="true">
+	
+	<context:annotation-config/> <!-- 有了component-scan后，该项可要可不要default-autowire="byType" -->
+	<context:component-scan base-package="cn.shaviation"/>
+	<!-- jdbc.properties 配置方式一 -->
+	<!-- <context:property-placeholder location=“jdbc.properties”/>  -->
+	<!-- PropertyPlaceholderConfigurer是一个容器后处理器，它会读取属性文件信息，并将这些信息设置成Spring配置文件的数据。 -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 定义数据源Bean，使用dbcp数据源实现 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<!-- 指定连接数据库的驱动 -->
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<!-- 指定连接数据库的URL -->
+		<property name="url" value="jdbc:mysql://localhost:3306/mymaven?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
+		<property name="username" value="root"/>
+		<property name="password" value="root"/>
+		<property name="defaultAutoCommit" value="true" />
+	</bean>
+	<!-- 定义Hibernate的SessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<!-- 依赖注入数据源，注入正是上面定义的dataSource -->
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 用来列出全部映射文件 法一：
+		<property name="configLocation" value="classpath:hibernate.cfg.xml"/> -->
+		<!-- mappingResouces属性用来列出全部映射文件 	configLocation	法二：-->
+		<property name="configLocations">
+			<list>
+				<!-- 以下用来列出Hibernate映射文件 -->
+				<value>classpath:cn/shaviation/mymaven/student/StudentServiceTest-hibernate.cfg.xml</value>
+			</list>
+		</property>
+		<!-- 定义Hibernate的SessionFactory的属性 -->
+		<property name="hibernateProperties">
+			<!-- 配置Hibernate属性 -->
+			<value>
+			#connection.useUnicode=true
+			#connection.characterEncoding=UTF-8
+			hibernate.dialect=org.hibernate.dialect.MySQLDialect
+			hibernate.hbm2ddl.auto=update
+			hibernate.show_sql=true
+			hibernate.format_sql=true
+			 <!-- hibernate.format_sql=true 对控制台输出的sql语句进行格式化-->
+			#开启二级缓存
+			hibernate.cache.use_second_level_cache=true
+			#设置二级缓存的提供者
+			hibernate.cache.region.factory_class=org.hibernate.cache.ehcache.EhCacheRegionFactory
+			
+			#新版本多余hibernate.current_session_context_class=thread
+			#新版本多余hibernate.current_session_context_class=org.springframework.orm.hibernate4.SpringSessionContext
+			</value>
+		</property>
+	</bean>
+	<!-- 配置Hibernate的局部事务管理器，使用HibernateTransactionManager类 -->
+	<!-- 该类实现PlatformTransactionManager接口，是针对Hibernate的特定实现-->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<!-- 配置HibernateTransactionManager时需要依注入SessionFactory的引用 -->
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<!-- 配置事务增强处理,指定事务管理器 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<!-- 用于配置详细的事务语义 -->
+		<tx:attributes>
+			<!-- 所有以'get'开头的方法是read-only的 -->
+			<tx:method name="get*" read-only="true"/>
+			<!-- 其他方法使用默认的事务设置-->
+			<tx:method name="*"/> 
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<!-- 配置一个切入点，
+		expression="execution(* cn.shaviation.mymaven.user.service.impl.*.*(..))"
+		bean(userService)可行
+		execution(* *..*Service.*(..))  execution(* *..service*..*(..))
+		expression="execution(* cn.shaviation.mymaven..*ServiceImpl.*(..))"可行
+		expression="execution(* cn.shaviation.mymaven..*Service.*(..))"可行
+		匹配*service的所有方法的执行expression="bean(empManager) or bean(mg rManager) -->
+		<aop:pointcut id="myPointcut" expression="execution(* cn.shaviation.mymaven..*Service.*(..))"/>
+		<!-- 指定在leePointcut切入点应用txAdvice事务增强处理 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="myPointcut"/>
+	</aop:config>	
+	
+</beans>
+
