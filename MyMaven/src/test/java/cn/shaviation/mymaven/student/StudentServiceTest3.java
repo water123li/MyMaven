@@ -16,6 +16,7 @@ import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 
 import cn.shaviation.mymaven.student.model.Student;
+import cn.shaviation.mymaven.student.model.Teacher;
 import cn.shaviation.mymaven.student.service.StudentService;
 import cn.shaviation.mymaven.user.model.User;
 import cn.shaviation.mymaven.user.service.UserService;
@@ -64,13 +65,46 @@ public class StudentServiceTest3 {
 	
 	@Test
 	public void testExecuteQuery() {
-		String sql = "select new map(s.id as id, s.name as name) from Student s where s.teacher.id=?";
-		List<Map<String, Object>> users = executeQuery(sql, false, 1L);
+//		String sql = "select new map(s.id as id, s.name as name) from Student s where s.teacher.id=?";
+//		List<Map<String, Object>> users = executeQuery(sql, false, 1L);
+		String sql = "select id, name from student where teacher_id=?";
+		List<Object[]> users = executeQuery(sql, true, 1L);
 		System.out.println("数据：");
-		for (Map<String, Object> map : users) {
-			System.out.println("id:" + map.get("id") + "	name:" + map.get("name"));
+		for (Object[] objects : users) {
+			System.out.println(objects[0] + "	" + objects[1]);
 		}
+//		for (List<String> list : users) {
+////			System.out.println("id:" + map.get("id") + "	name:" + map.get("name"));
+//			System.out.println("id:" + list.get(0) + "	name:" + list.get(1));
+//		}
 	} 
+	@Test
+	public void testQuery() {
+		String sql = "select s.teacher from Student s where s.teacher.id=?";
+//		List<Student> students = executeQuery(sql, false, 1L);
+//		for (Student student : students) {
+//			System.out.println(student.getId() + "   " + student.getName());
+//		}
+		List<Teacher> teachers = executeQuery(sql, false, 1L);
+		for (Teacher teacher : teachers) {
+			System.out.println(teacher.getId() + "   " + teacher.getName());
+		}
+	}
+	@Test
+	public void testSession() {
+		String sql = "select id, name from student where teacher.id=?";
+		Query query = sessionFactory.openSession().createSQLQuery(sql)
+				.addEntity(Student.class)
+				.setParameter(0, 1L);
+//		List<Student> students = query.list();
+//		for (Student student : students) {
+//			System.out.println(student.getId() + "   " + student.getName());
+//		}
+		List<Object[]> list = query.list();
+		for (Object[] object : list) {
+			System.out.println(object[0] + "  " + object[1]);
+		}
+	}
 	
 	
 	@AfterClass
