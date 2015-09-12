@@ -15,7 +15,6 @@ public class Student implements Cloneable {
 	private String name;
 	private Teacher teacher;
 
-
 	@Id
 	@GeneratedValue
 	public Long getId() {

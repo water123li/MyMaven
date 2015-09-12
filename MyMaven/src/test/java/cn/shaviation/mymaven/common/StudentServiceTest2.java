@@ -1,4 +1,4 @@
-package cn.shaviation.mymaven.student;
+package cn.shaviation.mymaven.common;
 
 import org.hibernate.SessionFactory;
 import org.junit.AfterClass;
@@ -30,7 +30,7 @@ public class StudentServiceTest2 {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		applicationContext = new ClassPathXmlApplicationContext(
-				"/cn/shaviation/mymaven/student/applicationContext.xml");
+				"/cn/shaviation/mymaven/common/applicationContext.xml");
 		studentService = (StudentService) applicationContext.getBean("studentService");
 		userService = (UserService) applicationContext.getBean("userService");
 		sessionFactory = (SessionFactory) applicationContext.getBean("sessionFactory");

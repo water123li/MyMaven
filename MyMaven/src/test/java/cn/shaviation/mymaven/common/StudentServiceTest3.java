@@ -1,13 +1,16 @@
-package cn.shaviation.mymaven.student;
+package cn.shaviation.mymaven.common;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.hibernate.Cache;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -38,7 +41,7 @@ public class StudentServiceTest3 {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		applicationContext = new ClassPathXmlApplicationContext(
-				"/cn/shaviation/mymaven/student/applicationContext2.xml");
+				"/cn/shaviation/mymaven/common/applicationContext2.xml");
 		studentService = (StudentService) applicationContext.getBean("studentService");
 		userService = (UserService) applicationContext.getBean("userService");
 		sessionFactory = (SessionFactory) applicationContext.getBean("sessionFactory");
@@ -90,21 +93,38 @@ public class StudentServiceTest3 {
 			System.out.println(teacher.getId() + "   " + teacher.getName());
 		}
 	}
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testSession() {
-		String sql = "select id, name from student where teacher.id=?";
+		String sql = "select * from student where teacher_id=?";
 		Query query = sessionFactory.openSession().createSQLQuery(sql)
 				.addEntity(Student.class)
 				.setParameter(0, 1L);
-//		List<Student> students = query.list();
-//		for (Student student : students) {
-//			System.out.println(student.getId() + "   " + student.getName());
-//		}
-		List<Object[]> list = query.list();
-		for (Object[] object : list) {
-			System.out.println(object[0] + "  " + object[1]);
+		List<Student> students = query.list();
+		for (Student student : students) {
+			System.out.println(student.getId() + "   " + student.getName());
 		}
+//		List<Object[]> list = query.list();
+//		for (Object[] object : list) {
+//			System.out.println(object[0] + "  " + object[1]);
+//		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCritia() {
+		Session session = sessionFactory.openSession();
+		List<Student> students = session.createCriteria(Student.class)
+				.add(Restrictions.ilike("name", "哈哈")).list();
+		for (Student student : students) {
+			System.out.println(student.getId() + "   " + student.getName());
+		}
+		
+		Cache cache = sessionFactory.getCache();
+		
+
+	}
+	
 	
 	
 	@AfterClass
@@ -112,7 +132,11 @@ public class StudentServiceTest3 {
 		if (dataSource != null) {
 			dataSource.close();
 		}
+		if (sessionFactory != null) {
+			sessionFactory.close();
+		}
 	}
+	
 	@SuppressWarnings("unchecked")
 	public static <E> List<E> executeQuery(final String ql, final boolean isNative, final Object... params) {
 		return hibernateTemplate.execute(new HibernateCallback<List<E>>() {
