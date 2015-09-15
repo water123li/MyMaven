@@ -14,9 +14,9 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 public class Teacher implements Cloneable{
 
-	Long id;
-	String name;
-	List<Student> students = new LinkedList<Student>();
+	private Long id;
+	private String name;
+	private List<Student> students = new LinkedList<Student>();
 	
 	@Id
 	@GeneratedValue

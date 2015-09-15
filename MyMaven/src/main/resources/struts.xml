@@ -5,5 +5,7 @@
     
 <struts>
 	<package name="default" extends="json-default">
-	</package>
+	     
+	 	<default-interceptor-ref name="json"/>
+ 	</package> 
 </struts>

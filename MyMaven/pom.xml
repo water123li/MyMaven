@@ -203,7 +203,12 @@
 			<artifactId>poi</artifactId>
 			<version>3.2-FINAL</version>
 		</dependency>
-
+		<!-- gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.3.1</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>MyMaven</finalName>

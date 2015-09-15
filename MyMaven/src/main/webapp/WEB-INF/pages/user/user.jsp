@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="../jquery/jquery-ui/jquery-ui.min.css" />
 <script src="../jquery/jquery-ui/external/jquery/jquery.js"></script>
 <script src="../jquery/jquery-ui/jquery-ui.min.js"></script>
-<script src="../jquery/core/xml2json.js"></script>
+<script src="../jquery/core/json2.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <head>
 <script type="text/javascript">
@@ -33,13 +33,16 @@
 		$("#userRegist").click(function() {
 			var username = $("#username").val();
 			var password = $("#password").val();
+			var entities = [];
+			var user = {"username":username, "password":password};
 			
 			$.ajax({
-				//contentType:"application/json",
+				contentType: "application/json; charset=utf-8",   //内容类型，一般不加，加了后台getParameter接受为null
 				dataType : "json", //返回的数据类型
 				type : "POST", //提交类型
 				url : "<c:url value='/user/userRegist.action'/>", //这里的需要Struts.xml的<action/>的name属性一致
-				data : {"username" : username, "password" : password}, //提交数据给Action传入数据 
+				//data : {"username" : username, "password" : password},
+				data : JSON.stringify({"user":user}), 			//提交数据给Action传入数据 
 				success : function(result) { //成功时调用的方法
 					if (!result.isSuccessed) {
 						alert("账号密码错误");

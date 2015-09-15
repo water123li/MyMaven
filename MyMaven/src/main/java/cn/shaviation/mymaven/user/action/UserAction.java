@@ -1,6 +1,7 @@
 package cn.shaviation.mymaven.user.action;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.struts2.ServletActionContext;
@@ -14,6 +15,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import cn.shaviation.mymaven.user.model.User;
 import cn.shaviation.mymaven.user.service.UserService;
 
 @ParentPackage("default")
@@ -23,6 +25,33 @@ public class UserAction extends ActionSupport {
 	private String username;
 	private String password;
 	private UserService userService;
+	private List<Object> entities;
+	private Object jsonObject;
+	private User user = new User();
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<Object> getEntities() {
+		return entities;
+	}
+
+	public void setEntities(List<Object> entities) {
+		this.entities = entities;
+	}
+
+	public Object getJsonObject() {
+		return jsonObject;
+	}
+
+	public void setJsonObject(Object jsonObject) {
+		this.jsonObject = jsonObject;
+	}
 
 	public UserService getUserService() {
 		return userService;
@@ -67,9 +96,15 @@ public class UserAction extends ActionSupport {
 		ActionContext.getContext().put("result", result);
 		return SUCCESS;
 	}
-
-	@Action(value = "userRegist", results = { @Result(name = "success", params = { "root", "result" }, type = "json") })
+//设置默认拦截器后不需要配置interceptorRefs
+	//	@Action(value = "userRegist", results = {
+//			@Result(name = "success", params = { "root", "result" }, type = "json") }, interceptorRefs = {
+//					@InterceptorRef(value = "json", params = { "root", "user" }) })
+	@Action(value = "userRegist", results = { @Result(name = "success", params = { "root", "result"}, type = "json") })
 	public String userRegist() {
+		if (user != null) {
+			System.out.println("username:"+user.getUsername() +"   password:"+user.getPassword());
+		}
 		Map<String, Object> result = new HashMap<String, Object>();
 
  		if (userService.isUserExisted(username, password)) {
