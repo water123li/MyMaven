@@ -39,7 +39,7 @@ public class Student implements Cloneable {
 	
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
-	}
+	} 
 	@Override
 	public String toString() {
 		return "Student [id=" + id + ", name=" + name + "]";

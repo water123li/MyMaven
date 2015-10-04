@@ -35,14 +35,22 @@
 			var password = $("#password").val();
 			var entities = [];
 			var user = {"username":username, "password":password};
+			var teacher = {"id":1, "name":"徐立秋", "students":
+				[{"id":1, "name":"李瑞鹏"},{"id":2, "name":"范长安"}]};
+			var students = [{"id":1, "name":"李瑞鹏"},{"id":2, "name":"范长安"}];
+			
+			var userJson  = JSON.stringify({"user":user});
+			var teacherJson = JSON.stringify({"teacher":teacher});
+			var studentsJson = JSON.stringify({"students":students});
 			
 			$.ajax({
-				contentType: "application/json; charset=utf-8",   //内容类型，一般不加，加了后台getParameter接受为null
+				//contentType: "application/json; charset=utf-8",   //内容类型，一般不加，加了后台getParameter接受为null
 				dataType : "json", //返回的数据类型
 				type : "POST", //提交类型
 				url : "<c:url value='/user/userRegist.action'/>", //这里的需要Struts.xml的<action/>的name属性一致
-				//data : {"username" : username, "password" : password},
-				data : JSON.stringify({"user":user}), 			//提交数据给Action传入数据 
+				data : {"username" : username, "password" : password},
+				//data : user, 			//提交数据给Action传入数据 
+				//data : JSON.stringify({"username" : username, "password" : password}),
 				success : function(result) { //成功时调用的方法
 					if (!result.isSuccessed) {
 						alert("账号密码错误");
