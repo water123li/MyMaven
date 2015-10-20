@@ -9,5 +9,8 @@
 		<mapping class="cn.shaviation.mymaven.user.model.User" />
 		<mapping class="cn.shaviation.mymaven.student.model.Student" />
 		<mapping class="cn.shaviation.mymaven.student.model.Teacher" />
+		<mapping class="cn.shaviation.mymaven.treestruct.model.TreeStruct" />
+		<mapping class="cn.shaviation.mymaven.treestruct.model.DataElement" />
+		
 	</session-factory>
 </hibernate-configuration>

@@ -8,6 +8,12 @@
 		<welcome-file>index7.jsp</welcome-file>
 	</welcome-file-list>
 	
+	<!-- 配置国际化资源文件 -->
+	<context-param>
+		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+		<param-value>message</param-value>
+	</context-param>
+	
 	<!-- 配置Spring配置文件的位置 -->
 	<context-param>
 	<param-name>contextConfigLocation</param-name>
@@ -61,15 +67,46 @@
      	<url-pattern>/*</url-pattern>  
 	</filter-mapping> 
 	-->
-  	<!-- 定义Struts 2的核心Filter -->
+		<!-- 定义StrutsPrepareFilter过滤器 -->
 	<filter>
+		<filter-name>struts-prepare</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareFilter</filter-class>
+	</filter>
+	<!-- 定义SiteMesh的核心过滤器 -->
+	<filter>
+		<filter-name>sitemesh</filter-name>
+		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+	</filter>
+	<!-- 定义StrutsExecuteFilter过滤器 -->
+	<filter>
+		<filter-name>struts-execute</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsExecuteFilter</filter-class>
+	</filter>
+	<!-- 定义过滤器链 -->
+	<!-- 排在第一位的过滤器是：StrutsPrepareFilter过滤器 -->
+	<filter-mapping>
+		<filter-name>struts-prepare</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 排在第二位的过滤器是：SiteMesh的核心过滤器 -->
+	<filter-mapping>
+		<filter-name>sitemesh</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 排在第三位的过滤器是：StrutsExecuteFilter过滤器 -->
+	<filter-mapping>
+		<filter-name>struts-execute</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+  	<!-- 定义Struts 2的核心Filter  使用sitemesh时用上面的-->
+	<!-- <filter>
 		<filter-name>struts2</filter-name>
 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
 		</filter-class>
-	</filter>
+	</filter> -->
 	<!-- 让Struts 2的核心Filter拦截所有请求 -->
-	<filter-mapping>
+	<!-- <filter-mapping>
 		<filter-name>struts2</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 </web-app>

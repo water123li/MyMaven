@@ -5,9 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 @Entity
 public class Student implements Cloneable {
 
@@ -32,7 +29,7 @@ public class Student implements Cloneable {
 		this.name = name;
 	}
 	@ManyToOne
-	@Cascade(CascadeType.ALL)
+//	@Cascade(CascadeType.SAVE_UPDATE)
 	public Teacher getTeacher() {
 		return teacher;
 	}

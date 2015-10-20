@@ -156,12 +156,12 @@ public class UserAction extends ActionSupport {
 		System.out.println("this.username:"+this.username +"   this.password:"+this.password);
 		Map<String, Object> result = new HashMap<String, Object>();
 
-// 		if (userService.isUserExisted(username, password)) {
-//			result.put("isSuccessed", false);
-//		} else {
-//			userService.addUser(username, password);
-//			result.put("isSuccessed", true);
-//		}
+ 		if (userService.isUserExisted(username, password)) {
+			result.put("isSuccessed", false);
+		} else {
+			userService.addUser(username, password);
+			result.put("isSuccessed", true);
+		}
 		
 		ActionContext.getContext().put("result", result);
 		return SUCCESS;

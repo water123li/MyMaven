@@ -8,9 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 @Entity
 public class Teacher implements Cloneable{
 
@@ -35,7 +32,7 @@ public class Teacher implements Cloneable{
 		this.name = name;
 	}
 	@OneToMany(mappedBy="teacher")
-	@Cascade(CascadeType.ALL)
+//	@Cascade(CascadeType.SAVE_UPDATE)
 	public List<Student> getStudents() {
 		return students;
 	}

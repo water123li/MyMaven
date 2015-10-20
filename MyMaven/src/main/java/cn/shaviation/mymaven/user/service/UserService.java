@@ -7,4 +7,6 @@ public interface UserService{
 	public boolean isUserExisted(String username, String password);
 
 	public User addUser(String username, String password);
+	
+	public User getUser(Long userId);
 }

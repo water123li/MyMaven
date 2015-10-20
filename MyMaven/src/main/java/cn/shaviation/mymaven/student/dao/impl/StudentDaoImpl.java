@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import cn.shaviation.mymaven.common.dao.impl.GenericDaoImpl;

@@ -38,4 +38,14 @@ public class UserDaoImpl implements UserDao {
 //		 Object object = org.springframework.aop.aspectj.TypePatternClassFilter;
 	}
 
+	@Override
+	public User getUser(Long userId) {
+		return hibernateTemplate.get(User.class, userId);
+	}
+
+	@Override
+	public void deleteUser(Long userId) {
+		hibernateTemplate.delete(this.getUser(userId));
+	}
+
 }

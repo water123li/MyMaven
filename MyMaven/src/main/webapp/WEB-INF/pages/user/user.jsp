@@ -2,20 +2,15 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
 <html>
-<link rel="stylesheet" href="../jquery/jquery-ui/jquery-ui.min.css" />
-<script src="../jquery/jquery-ui/external/jquery/jquery.js"></script>
-<script src="../jquery/jquery-ui/jquery-ui.min.js"></script>
-<script src="../jquery/core/json2.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <head>
 <script type="text/javascript">
-	$(document).ready(function() {
+	$(function() {
 		$("#userLogin").click(function() {
 			var username = $("#username").val();
 			var password = $("#password").val();
-			
+			var url = "<c:url value="/jsp/index.htm"/>";
 			$.ajax({
 				dataType : "json", //返回的数据类型
 				type : "POST", //提交类型
@@ -71,6 +66,6 @@
 	密码：<input id="password" name="password" type="password" />
 	<br />
 	<input id="userLogin" type="button" value="登陆" />
-	<input id="userRegist" type="button" value="注册" />
+	<input id="userRegist" type="button" value="注册 " />
 </body>
 </html>

@@ -598,7 +598,8 @@ public class GenericDaoImpl<T, PK extends Serializable> implements GenericDao<T,
 		try {
 			if (!(srcBean instanceof Collection) && !(srcBean instanceof Map)) {
 				ClassMetadata metadata = this.hibernateTemplate.getSessionFactory().getClassMetadata(srcBean.getClass());
-				String idField = "id";
+//				String idField = "id";
+				String idField = metadata.getIdentifierPropertyName();
 				Object id = PropertyUtils.getProperty(srcBean, idField);
 				if (id != null) {
 					if (id.equals(new Long(-1))) {
@@ -645,7 +646,6 @@ public class GenericDaoImpl<T, PK extends Serializable> implements GenericDao<T,
 					if (subJsons instanceof Collection || subJsons instanceof Map) {
 						Object subBean = loadEntityByJson(value, subJsons);
 						Collection originalSet = null, originalList = null;
-						Map	originalMap = null;
 						if (subBean instanceof Set) {
 							originalSet = (Collection) PropertyUtils.getProperty(targetBean, key);
 							if (originalSet == null) {
@@ -658,7 +658,7 @@ public class GenericDaoImpl<T, PK extends Serializable> implements GenericDao<T,
 								originalSet.addAll((Collection)subBean);
 							}
 						}else if (subBean instanceof Map) {
-							originalMap = (Map) PropertyUtils.getProperty(targetBean, key);
+							Map originalMap = (Map) PropertyUtils.getProperty(targetBean, key);
 							//911L
 							if (originalMap != null && ((Map)subJsons).get("internalState") == null) {
 								originalMap.putAll((Map)subBean);

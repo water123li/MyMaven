@@ -1,18 +1,21 @@
-package cn.shaviation.mymaven.test;
+package cn.shaviation.mymaven.util;
 
 import java.io.File;
 import java.io.IOException;
 
-public class FileTest {
-
-	public static void main(String[] args) throws IOException {
-
-		File file = createFile2("D:/xx/xx.txt");
-
-		System.out.println(file.isFile());
-		System.out.println(file.getAbsolutePath());
-	}
-
+/**
+ * 创建文件工具
+ * @author Administrator
+ *
+ */
+public class FileUtil {
+	/**
+	 * 根据目录和文件名创建文件
+	 * @param dir	目录路径
+	 * @param fileName	文件名
+	 * @return
+	 * @throws IOException
+	 */
 	public static File createFile(String dir, String fileName) throws IOException {
 		File file = null;
 		File fileDir = new File(dir);
@@ -50,5 +53,14 @@ public class FileTest {
 		}
 
 		return file;
+	}
+	
+	
+	public static void main(String[] args) throws IOException {
+
+		File file = createFile2("D:/xx/xx.txt");
+
+		System.out.println(file.isFile());
+		System.out.println(file.getAbsolutePath());
 	}
 }

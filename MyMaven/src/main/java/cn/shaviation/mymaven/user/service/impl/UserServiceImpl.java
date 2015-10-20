@@ -40,5 +40,9 @@ public class UserServiceImpl implements UserService {
 		userDao.saveUser(user);
 		return user;
 	}
+	@Override
+	public User getUser(Long userId) {
+		return userDao.getUser(userId);
+	}
 
 }
