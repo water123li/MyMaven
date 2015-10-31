@@ -74,7 +74,11 @@
 				<value>classpath:hibernate.cfg.xml</value>
 			</list>
 		</property>
-		<!-- 定义Hibernate的SessionFactory的属性 -->
+		<!-- 定义Hibernate的命名策略 -->
+		<property name="namingStrategy">
+			<bean class="org.hibernate.cfg.ImprovedNamingStrategy"/>
+		</property>
+		<!-- 定义Hibernate的SessionFactory的属性 create update-->
 		<property name="hibernateProperties">
 			<!-- 配置Hibernate属性 -->
 			<value>
