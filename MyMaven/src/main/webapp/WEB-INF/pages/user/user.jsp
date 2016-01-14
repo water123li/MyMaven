@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="s" uri="/struts-tags" %>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -67,5 +68,19 @@
 	<br />
 	<input id="userLogin" type="button" value="登陆" />
 	<input id="userRegist" type="button" value="注册 " />
+	<br>
+	<br>
+	<div>文件上传</div>
+	<div id="fileDiv">
+		<form action="<c:url value='/file/upload.action'/>" enctype="multipart/form-data" method="post">
+	    	<input name="image" type="file">
+	    	<input type="submit" value="上传"/>
+	    </form>
+	    
+	    <div>文件下载</div>
+	    <form action="<c:url value='/file/download.action?fileName=aa.txt'/>" method="post">
+	    	<input type="submit" value="下载图片"/>
+	    </form>
+	</div>
 </body>
 </html>

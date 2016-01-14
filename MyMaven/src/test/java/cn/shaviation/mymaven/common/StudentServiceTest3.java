@@ -120,11 +120,17 @@ public class StudentServiceTest3 {
 			System.out.println(student.getId() + "   " + student.getName());
 		}
 		
-		Cache cache = sessionFactory.getCache();
-		
-
 	}
 	
+	@Test
+	public void testHqlJoin() {
+//		String hql = "select distinct t from Teacher t, Student s where t.id=s.teacher.id and s.id = 1";
+		String hql = "select distinct t from Teacher t where t.id = 10";
+		List<Teacher> teachers = executeQuery(hql, false);
+		for (Teacher teacher : teachers) {
+			System.out.println(teacher.getId() + "   " + teacher.getName());
+		}
+	}
 	
 	
 	@AfterClass

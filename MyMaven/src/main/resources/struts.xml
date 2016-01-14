@@ -4,6 +4,8 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
     
 <struts>
+<!-- <package name="lee" extends="struts-default">json-default
+</package>  -->
 	<package name="default" extends="json-default">
 		<interceptors>
 			<interceptor-stack name="myInterceptor">
