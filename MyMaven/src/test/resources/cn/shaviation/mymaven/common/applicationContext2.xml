@@ -50,6 +50,10 @@
 				<value>classpath:cn/shaviation/mymaven/student/StudentServiceTest-hibernate.cfg.xml</value>
 			</list>
 		</property>
+		<!-- 定义Hibernate的命名策略 -->
+		<property name="namingStrategy">
+			<bean class="org.hibernate.cfg.ImprovedNamingStrategy"/>
+		</property>
 		<!-- 定义Hibernate的SessionFactory的属性 -->
 		<property name="hibernateProperties">
 			<!-- 配置Hibernate属性 -->

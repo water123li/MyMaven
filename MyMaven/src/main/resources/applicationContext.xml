@@ -27,7 +27,7 @@
 			</list>
 		</property>
 	</bean>
-	<!-- 定义数据源Bean，使用C3P0数据源实现 -->
+	<!-- 定义数据源Bean，使用DHCP数据源实现 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<!-- 指定连接数据库的驱动 -->

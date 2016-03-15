@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+//@Entity(name="data_element")
 @Entity
 public class DataElement {
 	private Long id;

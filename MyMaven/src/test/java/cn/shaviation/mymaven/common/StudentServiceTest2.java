@@ -1,12 +1,12 @@
 package cn.shaviation.mymaven.common;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -19,7 +19,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import cn.shaviation.mymaven.student.model.Student;
 import cn.shaviation.mymaven.student.service.StudentService;
-import cn.shaviation.mymaven.treestruct.dao.TreeStructDao;
+import cn.shaviation.mymaven.treestruct.model.DataElement;
 import cn.shaviation.mymaven.treestruct.model.TreeStruct;
 import cn.shaviation.mymaven.treestruct.service.TreeStructService;
 import cn.shaviation.mymaven.user.model.User;
@@ -100,22 +100,23 @@ public class StudentServiceTest2 {
 	} 
 	@Test
 	public void getUsers() {
-		List<User> users = this.testGetUsers(1L, 2L);
-		for (User user : users) {
-			System.out.println("用户ID：" + user.getId() + " 用户姓名：" + user.getUsername());
+		List<DataElement> users = this.testGetUsers(1L, 2L);
+		for (DataElement user : users) {
+			System.out.println("用户ID：" + user.getId() + " 用户姓名：" + user.getCode());
 		}
 	}
 	
-	
 	@SuppressWarnings("unchecked")
-	public List<User> testGetUsers(Long... ids){
+	public List<DataElement> testGetUsers(Long... ids){
 		System.out.println(StringUtils.join(ids));
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		String hql = "from User where id in (" + StringUtils.join(ids, ",") +")";
-		List<User> users = session.createQuery(hql).list();
+		String hql = "from DataElement d where id in (:ids)";
+		Query query = session.createQuery(hql);
+		query.setParameterList("ids", ids);
+		List<DataElement> dataElements = query.list();
 		session.getTransaction().commit();
-		return users;
+		return dataElements;
 	}
 
 	@AfterClass

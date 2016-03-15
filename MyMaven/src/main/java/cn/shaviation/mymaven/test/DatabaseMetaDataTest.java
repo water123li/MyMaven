@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 
+import org.apache.struts2.json.JSONUtil;
+
 import cn.shaviation.mymaven.util.JDBCUtil;
 
 public class DatabaseMetaDataTest {
@@ -23,7 +25,6 @@ public class DatabaseMetaDataTest {
 			while (rs.next()) {
 				System.out.println(rs.getString(3));
 			}
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
