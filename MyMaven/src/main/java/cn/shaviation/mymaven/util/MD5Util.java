@@ -13,7 +13,7 @@ public class MD5Util {
 
 	public static void main(String[] args) throws NoSuchAlgorithmException {
 
-		String s = "";
+		String s = "";//空串
 		Long k = 1234567890L;
 		System.out.println(getMD5Str(s));
 		String s1 = "1";
