@@ -1,5 +1,6 @@
 package cn.shaviation.mymaven.student;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.dbunit.database.DatabaseDataSourceConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
@@ -29,6 +31,7 @@ import cn.shaviation.mymaven.student.model.Teacher;
 import cn.shaviation.mymaven.student.service.StudentService;
 import cn.shaviation.mymaven.user.model.User;
 import cn.shaviation.mymaven.user.service.UserService;
+import cn.shaviation.mymaven.util.DataSourceUtil;
 
 /**
  * 学生接口单元测试
@@ -139,7 +142,37 @@ public class StudentServiceTest {
 			System.out.println("id:" + map.get("id") + " name:" + map.get("name"));
 		}
 	}
-
+	@Test
+	public void dataSourceCreate() throws SQLException {
+		BasicDataSource source = DataSourceUtil.createBasicDataSource("localhot", "3306", "mymaven", "root", "root");
+		JdbcTemplate template = new JdbcTemplate(source);
+		try {
+			getConnection(source);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+//		Connection connection = source.getConnection();
+//		if (connection == null) {
+//			System.out.println("获取不到连接");
+//		}else {
+//			System.out.println("连接成功");
+//		}
+	}
+	
+	public static Connection getConnection(BasicDataSource source) throws Exception{
+		Connection connection = null;
+		try {
+			connection = source.getConnection();
+		} catch (Exception e) {
+			if (source != null) {
+				source.close();
+			}
+			throw new Exception("连接不成功！");
+		}
+		
+		return connection;
+	}
 
 	@AfterClass
 	public static void teardown() throws Exception {
