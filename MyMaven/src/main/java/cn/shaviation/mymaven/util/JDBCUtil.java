@@ -4,7 +4,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-//数据库连接
+//数据库操作
 public class JDBCUtil {
 
 	private String url;
