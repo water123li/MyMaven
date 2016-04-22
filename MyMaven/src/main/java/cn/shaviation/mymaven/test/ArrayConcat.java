@@ -2,6 +2,7 @@ package cn.shaviation.mymaven.test;
 
 import java.util.StringTokenizer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 public class ArrayConcat {
@@ -10,14 +11,14 @@ public class ArrayConcat {
 		String string = "h,hhh";
 		String[] split = string.split(",");string.length();
 		for (String string2 : split) {
-			System.out.println(string2);
+//			System.out.println(string2);
 		}
 		
 		StringTokenizer st = new StringTokenizer("www.ooobj.com", ".bc");
 		while (st.hasMoreElements()) {
-			System.out.println("Token:" + st.nextToken());
+//			System.out.println("Token:" + st.nextToken());
 		}
-
+		
 	}
 	
 	@Test
@@ -27,6 +28,6 @@ public class ArrayConcat {
 		
 		String s2  = "李瑞";
 		int comp = s1.compareTo(s2);
-		System.out.println(comp );
+		System.out.println(StringUtils.isNumeric("2e10"));
 	}
 }
