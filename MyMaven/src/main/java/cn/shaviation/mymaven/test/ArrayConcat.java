@@ -1,5 +1,6 @@
 package cn.shaviation.mymaven.test;
 
+import java.io.Externalizable;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,10 +25,5 @@ public class ArrayConcat {
 	@Test
 	public void test() {
 		char[] val = {'a','b','c'};
-		String s1  = "黄";
-		
-		String s2  = "李瑞";
-		int comp = s1.compareTo(s2);
-		System.out.println(StringUtils.isNumeric("2e10"));
 	}
 }
