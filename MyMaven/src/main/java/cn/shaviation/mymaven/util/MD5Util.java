@@ -23,7 +23,6 @@ public class MD5Util {
 		System.out.println(md.getAlgorithm());
 		System.out.println(md.hashCode());
 		System.out.println(k.hashCode());
-		System.out.println(k.hashCode());
 	}
 
 	/**
