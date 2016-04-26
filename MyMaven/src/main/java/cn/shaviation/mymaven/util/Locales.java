@@ -14,7 +14,7 @@ public class Locales {
 	/**
 	 * 获取国际化信息
 	 * @param key
-	 * @param params
+	 * @param params 参数
 	 * @return
 	 */
 	public static String getMessage(String key, Object... params) {
