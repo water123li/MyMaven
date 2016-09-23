@@ -1,20 +1,20 @@
 package cn.shaviation.mymaven.common;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.hibernate.Cache;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 
@@ -68,29 +68,33 @@ public class StudentServiceTest3 {
 	
 	@Test
 	public void testExecuteQuery() {
-//		String sql = "select new map(s.id as id, s.name as name) from Student s where s.teacher.id=?";
-//		List<Map<String, Object>> users = executeQuery(sql, false, 1L);
-		String sql = "select id, name from student where teacher_id=?";
-		List<Object[]> users = executeQuery(sql, true, 1L);
+		String sql = "select new map(id as id, name as name) from Student s where s.teacher.id=?";
+//		String sql = "select id as ids, name as names from Student s";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+//		List<Map<String, Object>> users = jdbcTemplate.queryForList(sqlText);
+		List<Map<String, Object>> users = executeQuery(sql, false, 1L);
+//		String sql = "select id, name from student where teacher_id=?";
+//		List<Object[]> users = executeQuery(sql, true, 1L);
 		System.out.println("数据：");
-		for (Object[] objects : users) {
-			System.out.println(objects[0] + "	" + objects[1]);
-		}
-//		for (List<String> list : users) {
-////			System.out.println("id:" + map.get("id") + "	name:" + map.get("name"));
-//			System.out.println("id:" + list.get(0) + "	name:" + list.get(1));
+//		for (Object[] objects : users) {
+//			System.out.println(objects[0] + "	" + objects[1]);
 //		}
+		for (Map<String, Object> map : users) {
+			System.out.println("id:" + map.get("id") + "	name:" + map.get("name"));
+//			System.out.println("id:" + list.get(0) + "	name:" + list.get(1));
+		}
 	} 
 	@Test
 	public void testQuery() {
 		String sql = "select s.teacher from Student s where s.teacher.id=?";
-//		List<Student> students = executeQuery(sql, false, 1L);
-//		for (Student student : students) {
-//			System.out.println(student.getId() + "   " + student.getName());
+//		List<Teacher> teachers = executeQuery(sql, false, 1L);
+//		for (Teacher teacher : teachers) {
+//			System.out.println(teacher.getId() + "   " + teacher.getName());
 //		}
-		List<Teacher> teachers = executeQuery(sql, false, 1L);
-		for (Teacher teacher : teachers) {
-			System.out.println(teacher.getId() + "   " + teacher.getName());
+		String hql = "SELECT new map(s.id as sid,s.name as sname,t.name as tname) FROM Student s left JOIN s.teacher t ";
+		List<Map<String, Object>> users = executeQuery(hql, false);
+		for (Map<String, Object> map : users) {
+			System.out.println("id:" + map.get("sid") + "	sname:" + map.get("sname") + "	tname:" + map.get("tname"));
 		}
 	}
 	@SuppressWarnings("unchecked")
@@ -129,6 +133,35 @@ public class StudentServiceTest3 {
 		List<Teacher> teachers = executeQuery(hql, false);
 		for (Teacher teacher : teachers) {
 			System.out.println(teacher.getId() + "   " + teacher.getName());
+		}
+	}
+	@Test
+	public void testSqlReturnMap() {
+		//sql查询结果为map
+		Session session = sessionFactory.openSession();
+		String sql = "SELECT s.id,s.`name` as sname,t.`name` as tname FROM student s LEFT JOIN teacher t ON s.teacher=t.id";
+		Query query = session.createSQLQuery(sql);
+		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+		List<Map<String, Object>> users = query.list();
+		for (Map<String, Object> map : users) {
+			System.out.println("id:" + map.get("sid") + "	sname:" + map.get("sname") + "	tname:" + map.get("tname"));
+		}	
+	}
+	@Test
+	public void testHqlLeftJoin() {
+		String hql = "SELECT new map(s.id as sid,s.name as sname,t.name as tname) FROM Student s left JOIN s.teacher t";
+		List<Map<String, Object>> users = executeQuery(hql, false);
+		for (Map<String, Object> map : users) {
+			System.out.println("id:" + map.get("sid") + "	sname:" + map.get("sname") + "	tname:" + map.get("tname"));
+		}	
+	}
+	
+	@Test
+	public void testJdbcTemplate() {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		List<Long> ids = jdbcTemplate.queryForList("select id from student", Long.class);
+		for (Long id : ids) {
+			System.out.println(id);
 		}
 	}
 	

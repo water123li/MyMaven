@@ -3,8 +3,6 @@ package cn.shaviation.mymaven.custom.model;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
-import cn.shaviation.mymaven.common.model.BaseEntity;
-
 /**
  * 实体属性
  * 

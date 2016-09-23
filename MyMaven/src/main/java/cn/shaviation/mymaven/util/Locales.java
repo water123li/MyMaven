@@ -26,7 +26,7 @@ public class Locales {
         ResourceBundle rb = ResourceBundle.getBundle("message", locale);  
         //根据key获得value值  
         String title = rb.getString(key); 
-        
+         
         String format = MessageFormat.format(title, params);
         
 		return format;

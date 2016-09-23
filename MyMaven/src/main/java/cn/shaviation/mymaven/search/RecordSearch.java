@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Search {
+public class RecordSearch {
 
 	public static List<Record> recordList = new ArrayList<>();
 

@@ -2,7 +2,7 @@ package cn.shaviation.mymaven.workflow.model;
 
 import javax.persistence.Entity;
 
-import cn.shaviation.mymaven.common.model.BaseEntity;
+import cn.shaviation.mymaven.custom.model.BaseEntity;
 /**
  * 工作流对象实体
  * @author rli

@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
-import cn.shaviation.mymaven.common.model.BaseEntity;
+import cn.shaviation.mymaven.custom.model.BaseEntity;
 import cn.shaviation.mymaven.user.model.User;
 /**
  * 工作流基类

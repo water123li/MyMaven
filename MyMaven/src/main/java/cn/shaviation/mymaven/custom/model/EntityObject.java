@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import cn.shaviation.mymaven.common.model.BaseEntity;
-
 /**
  * 实体属性
  * 

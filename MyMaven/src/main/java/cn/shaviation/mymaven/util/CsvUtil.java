@@ -30,11 +30,21 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.ResultSetHelper;
 import com.opencsv.ResultSetHelperService;
-
+/**
+ * csv文件操作工具类
+ * @author rli
+ *
+ */
 public class CsvUtil {
 
 	public static final Logger logger = LoggerFactory.getLogger(CsvUtil.class);
 	
+	/**
+	 * 数据库数据导出到csv文件
+	 * @param tables
+	 * @param dataPath
+	 * @param jdbcTemplate
+	 */
 	public static void exportData(String[] tables,final File dataPath, JdbcTemplate jdbcTemplate) {
 		for (final String tableName : tables) {
 			jdbcTemplate.query("select * from " + tableName, new ResultSetExtractor<Object>() {
@@ -72,10 +82,18 @@ public class CsvUtil {
 		}
 		
 	}
-
+	/**
+	 * csv文件数据导入到数据库
+	 * @param filePath
+	 * @param jdbcTemplate
+	 */
 	public static void importData(String filePath, JdbcTemplate jdbcTemplate) {
 		importData(new File(filePath), jdbcTemplate);
 	}
+	
+	/**
+	 * csv文件数据导入到数据库
+	 */
 	public static void importData(final File file, JdbcTemplate jdbcTemplate) {
 		jdbcTemplate.execute(new ConnectionCallback<Object>() {
 
@@ -101,6 +119,14 @@ public class CsvUtil {
 		});
 		
 	}
+	
+	/**
+	 * csv文件数据导入到数据库
+	 * @param file
+	 * @param dmd
+	 * @param con
+	 * @throws SQLException
+	 */
 	public static void importFile(File file, DatabaseMetaData dmd, Connection con) throws SQLException {
 		if (!file.getName().endsWith(".csv")) {
 			return;
@@ -182,6 +208,11 @@ public class CsvUtil {
 		statement.executeBatch();
 		statement.cancel();		
 	}
+	/**
+	 * 读取csv文件
+	 * @param file
+	 * @return
+	 */
 	public static List<List<String>> readCsv(File file) {
 		List<List<String>> result = new ArrayList<>();
 		CSVReader reader = null;

@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import cn.shaviation.mymaven.common.model.BaseEntity;
+import cn.shaviation.mymaven.custom.model.BaseEntity;
 
 /**
  * 工作流状态

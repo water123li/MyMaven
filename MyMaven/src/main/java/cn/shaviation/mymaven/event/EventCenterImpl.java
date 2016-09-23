@@ -30,7 +30,7 @@ public class EventCenterImpl implements EventCenter, BeanFactoryPostProcessor {
 				eventHandler.handleEvent(event);
 			}
 		}
-
+		
 	}
 
 }

@@ -110,6 +110,7 @@ public class UserAction extends ActionSupport {
 	@Action(value = "userRegist", results = { @Result(name = "success", params = { "root", "result"}, type = "json") })
 	public String userRegist() throws Exception {
 		HttpServletRequest request = ServletActionContext.getRequest();
+		
 		BufferedReader bufferReader = request.getReader();
 		
 		String line;
@@ -175,6 +176,6 @@ public class UserAction extends ActionSupport {
 		users.add(map1);
 		
 		
-		return users;
+		return users; 
 	}
 }

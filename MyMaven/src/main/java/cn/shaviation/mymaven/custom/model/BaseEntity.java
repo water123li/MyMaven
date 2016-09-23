@@ -1,4 +1,4 @@
-package cn.shaviation.mymaven.common.model;
+package cn.shaviation.mymaven.custom.model;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

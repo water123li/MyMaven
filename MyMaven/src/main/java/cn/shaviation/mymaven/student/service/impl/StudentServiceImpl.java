@@ -40,5 +40,10 @@ public class StudentServiceImpl implements StudentService {
 		studentDao.saveOrUpdateStudent(student);		
 	}
 	
-
+	@Override
+	public boolean isStudentEqual(Long studentId) {
+		Student student1 = studentDao.getStudent(studentId);
+		Student student2 = studentDao.getStudent(studentId);
+		return student1 == student2;
+	}
 }

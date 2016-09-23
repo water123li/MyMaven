@@ -17,4 +17,10 @@ public interface StudentService {
 	 * 改变学生名称
 	 */
 	public void saveOrUpdateStudent(Student student);	
+	/**
+	 * 
+	 * @param studentId
+	 * @return
+	 */
+	public boolean isStudentEqual(Long studentId);
 }
